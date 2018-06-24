@@ -1,7 +1,6 @@
 package ru.javacore.gorbachev.network.connection;
 
-import ru.javacore.gorbachev.network.listener.ListenSocket;
-import ru.javacore.gorbachev.network.listener.interfaces.TCPConnectionListener;
+import ru.javacore.gorbachev.network.listener.TCPConnectionListener;
 
 import java.io.*;
 import java.net.Socket;
@@ -12,7 +11,6 @@ public class TCPConnection {
 
     private final Socket socket;
     //Поток, который слушает входящее соединение
-    private final Runnable listenSocket;
     private final Thread rxThread;
     //Потоки ввода\вывода сообщений
     private final BufferedReader inMsg;
@@ -26,8 +24,46 @@ public class TCPConnection {
         this.socket = socket;
         this.inMsg = new BufferedReader(new InputStreamReader(socket.getInputStream(), Charset.forName("UTF-8")));
         this.outMsg = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), Charset.forName("UTF-8")));
-        this.listenSocket = new ListenSocket(this.inMsg, this.listenerEvent, TCPConnection.this);
-        this.rxThread = new Thread(this.listenSocket);
+        this.rxThread = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    while (!rxThread.isInterrupted()) {
+                        listenerEvent.onReciveMsg(TCPConnection.this, inMsg.readLine());
+                    }
+                } catch (IOException e) {
+                    //Ошибка чтения из потока
+                    listenerEvent.onExeption(TCPConnection.this, e);
+                } finally {
+                    listenerEvent.onDisconect(TCPConnection.this);
+                }
+            }
+        });
         this.rxThread.start();
+    }
+
+    //Отправка сообщения
+    public synchronized void sendMsg(String value) {
+        try {
+            this.outMsg.write(value + "\r\n");
+            this.outMsg.flush();
+        } catch (IOException e) {
+            this.listenerEvent.onExeption(TCPConnection.this, e);
+            disconnect();
+        }
+    }
+
+    //Закрыть соединение
+    public synchronized void disconnect() {
+        this.rxThread.interrupt();
+        try {
+            socket.close();
+        } catch (IOException e) {
+            this.listenerEvent.onExeption(TCPConnection.this, e);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "TCPConntection " + socket.getInetAddress() + ": " + socket.getPort();
     }
 }
