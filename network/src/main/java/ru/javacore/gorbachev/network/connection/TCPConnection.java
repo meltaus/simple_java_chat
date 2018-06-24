@@ -18,6 +18,11 @@ public class TCPConnection {
     //Слушатель событий
     private final TCPConnectionListener listenerEvent;
 
+    //Создаем сокет
+    public TCPConnection(TCPConnectionListener listenerEvent, String ip, int port) throws IOException {
+        this(new Socket(ip, port), listenerEvent);
+    }
+
     //Создаем соединение на основе полученного сокета
     public TCPConnection(Socket socket, TCPConnectionListener tcpConnectionListener) throws IOException {
         this.listenerEvent = tcpConnectionListener;
