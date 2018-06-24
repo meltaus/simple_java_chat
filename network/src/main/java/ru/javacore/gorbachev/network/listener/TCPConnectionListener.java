@@ -1,4 +1,4 @@
-package ru.javacore.gorbachev.network.listener.interfaces;
+package ru.javacore.gorbachev.network.listener;
 
 import ru.javacore.gorbachev.network.connection.TCPConnection;
 
