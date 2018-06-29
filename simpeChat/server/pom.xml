@@ -6,7 +6,23 @@
 
     <groupId>server</groupId>
     <artifactId>server</artifactId>
+    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>network</groupId>
+            <artifactId>network</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <parent>
+        <groupId>simpeChat</groupId>
+        <artifactId>simpeChat</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
     <build>
         <plugins>
             <plugin>
@@ -19,26 +35,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <parent>
-        <groupId>simpeChat</groupId>
-        <artifactId>simpeChat</artifactId>
-        <version>1.0</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
-
-    <dependencies>
-        <dependency>
-            <groupId>network</groupId>
-            <artifactId>network</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>network</groupId>
-            <artifactId>network</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
