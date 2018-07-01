@@ -89,32 +89,32 @@ public class ChatServer implements TCPConnectionListener {
             sendAllUserChat();
         } else if (value.contains("/Register")){ //Зарегистрировать пользователя
             value = value.replace("/Register ", "");
-            String[] nick = value.split(" ", 3);
-            nick[0] = nick[0].replace(":", "");
+            String[] nick = value.split(" ");
+            nick[0] = nick[0].replace(" ", "");
             nick[1] = nick[1].replace(" ", "");
-            nick[2] = nick[2].replace(" ", "");
-            List<User> users = dbHandler.getUser(nick[1]);
+            List<User> users = dbHandler.getUser(nick[0]);
             if (users.size() < 1) {
-                dbHandler.addUser(new User(nick[1], nick[2]));
+                dbHandler.addUser(new User(nick[0], nick[1]));
                 tcpConnection.sendMsg("Вы успешно зарегистрированны");
             } else {
                 tcpConnection.sendMsg("Недопустимое имя пользователя");
             }
         } else if (value.contains("/AuthUser")) {
             value = value.replace("/AuthUser ", "");
-            String[] nick = value.split(" ", 3);
-            nick[0] = nick[0].replace(":", "");
+            String[] nick = value.split(" ");
+            nick[0] = nick[0].replace(" ", "");
             nick[1] = nick[1].replace(" ", "");
-            nick[2] = nick[2].replace(" ", "");
-            List<User> users = dbHandler.getUser(nick[1]);
+            List<User> users = dbHandler.getUser(nick[0]);
             if (users.size() == 1) {
                 User user = users.get(0);
-                if (user.getNickName().equals(nick[1]) && user.getPassword().equals(nick[2])) {
-                    tcpConnection.sendMsg("Вы усешно авторизованны");
+                if (user.getNickName().equals(nick[0]) && user.getPassword().equals(nick[1])) {
                     tcpConnection.sendMsg("/AuthUser true");
+                    tcpConnection.sendMsg("Вы усешно авторизованны");
+                    System.out.println("Авторизован");
                 } else {
                     tcpConnection.sendMsg("Авторизация завершилась ошибкой");
                     tcpConnection.sendMsg("/AuthUser false");
+                    System.out.println("Не авторизован");
                 }
             }
         } else if (value.contains("/w")) { //Личное сообщение
