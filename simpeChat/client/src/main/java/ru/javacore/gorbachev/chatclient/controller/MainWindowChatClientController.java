@@ -31,6 +31,7 @@ import java.util.ResourceBundle;
 public class MainWindowChatClientController implements Initializable, TCPConnectionListener {
 
     private static final String DEFAULT_USER_NAME = "default";
+    private static final int TIME_ON_AUTH = 120;
 
     //Текущие настройки приложения. Может перечитываться в процессе работы программы и обновляет параметры
     private SettingsXML settingsXML;
@@ -48,13 +49,14 @@ public class MainWindowChatClientController implements Initializable, TCPConnect
     private MenuItem setNickName;
     @FXML
     private Label labelStatus;
+    @FXML
+    private MenuItem about;
 
     private Stage mainStage;
 
-    private Parent fxmlSettings;
-
     //Контроллеры
     private SetNickNameController setNickNameController;
+    private AboutController aboutController;
 
     //Параметры для соединения
     private String ipAddres;
@@ -68,9 +70,13 @@ public class MainWindowChatClientController implements Initializable, TCPConnect
     //Ресурсы перевода
     private ResourceBundle resourceBundle;
 
+    //Состояние авторизации
+    private Boolean isAuth;
+
     public MainWindowChatClientController() {
         this.ipAddres = "localhost";
         this.port = 8189;
+        this.isAuth = false;
     }
 
     //Метод, выполняемый при инициализации макета
@@ -93,6 +99,27 @@ public class MainWindowChatClientController implements Initializable, TCPConnect
         if (DEFAULT_USER_NAME.equals(this.userName)) {
             loadDialog("setNickName");
         }
+        long currentTime = System.currentTimeMillis();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while ((TIME_ON_AUTH * 1000) >= (System.currentTimeMillis() - currentTime)) {
+                    if (isAuth) {
+                        printMsg("Вы авторизованны успешно");
+                        break;
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (!isAuth) {
+                    printMsg("Время на авторизацию закончено");
+                    connection.disconnect();
+                }
+            }
+        }).start();
     }
 
     //Слушатели
@@ -160,8 +187,18 @@ public class MainWindowChatClientController implements Initializable, TCPConnect
                 this.nickList.add(strNick[i].replace(" ", ""));
             }
             updateNickNameColumn();
+        } else if(value.contains("/AuthUser")) {
+            if (value.contains("true")) {
+                this.isAuth = true;
+            }
+            if (value.contains("false")) {
+                printMsg("Авторизация отклонена");
+                this.connection.disconnect();
+            }
         } else {
-            printMsg(value);
+            if (this.isAuth) {
+                printMsg(value);
+            }
         }
     }
 
@@ -198,18 +235,33 @@ public class MainWindowChatClientController implements Initializable, TCPConnect
                     System.out.println("Загрузка формы setNickName");
                     FXMLLoader fxmlLoader = new FXMLLoader();
                     fxmlLoader.setLocation(getClass().getResource("/fxml/SetNickName.fxml"));
-//                        fxmlLoader.setResources(ResourceBundle.getBundle("bunta.helpreport.bundles.Locale", new Locale("ru")));
-                    fxmlSettings = fxmlLoader.load();
+                    Parent fxmlSettings = fxmlLoader.load();
                     setNickNameController = fxmlLoader.getController();
+                    System.out.println("setNickName создание диалога");
+                    Stage setNickNameStage = createDialog(fxmlSettings, "Укажите имя пользователя", 115, 215);
+                    setNickNameController.setNickNameStage(setNickNameStage);
+                    setNickNameStage.showAndWait(); //Ожидание закрытия окна
+                    loadConfigure();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                System.out.println("setNickName создание диалога");
-                Stage setNickNameStage = createDialog(mainStage, fxmlSettings, "Укажите имя пользователя", 115, 215);
-                SetNickNameController setNickNameController = new SetNickNameController();
-                setNickNameController.setNickNameStage(setNickNameStage);
-                setNickNameStage.showAndWait(); //Ожидание закрытия окна
-                loadConfigure();
+                break;
+
+            case "about":
+                try {
+                    System.out.println("Загрузка формы about");
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(getClass().getResource("/fxml/About.fxml"));
+                    Parent fxmlSettings = fxmlLoader.load();
+                    aboutController = fxmlLoader.getController();
+                    System.out.println("about создание диалога");
+                    Stage aboutStage = createDialog(fxmlSettings, "О программе", 310, 936);
+                    aboutController.setAboutStage(aboutStage);
+                    aboutStage.showAndWait(); //Ожидание закрытия окна
+                    loadConfigure();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }
@@ -255,7 +307,7 @@ public class MainWindowChatClientController implements Initializable, TCPConnect
             }
             System.out.println(settingsXML.toString());
         } else {
-            fileConfig.createXML("None", "None");
+            fileConfig.createXML("None", "None", "None", "None");
             System.out.println("Создан ранее не существоваший файл настроек");
             settingsXML = fileConfig.loadXML();
             connection.sendMsg("/MyNickName " + settingsXML.getUser());
@@ -268,14 +320,26 @@ public class MainWindowChatClientController implements Initializable, TCPConnect
         if (settingsXML.getUser().equals("None")) {
             System.out.println("Настроек на данный момент нет");
             printMsg("Настроек на данный момент нет");
+            loadDialog("setNickName");
             System.out.println(settingsXML.toString());
+        }
+
+        if (settingsXML.getUserName().equals("None")) {
+            printMsg("Нет параметров для авторизации");
+            Platform.runLater(() -> {
+                labelStatus.setText(labelStatus.getText() + "\t На данный момент у вас нет данных для авторизации");
+            });
+        } else {
+            Platform.runLater(() -> {
+                labelStatus.setText(labelStatus.getText() + "\t На сервере вы известный как " + settingsXML.getUserName());
+            });
         }
     }
 
     //Создание диалогового модального окна
-    private Stage createDialog(Stage currentStage, Parent currentParent, String title, int height, int width) {
+    private Stage createDialog(Parent currentParent, String title, int height, int width) {
         System.out.println("Отрисовка диалогового окна " + title);
-        currentStage = new Stage();
+        Stage currentStage = new Stage();
         currentStage.setTitle(title);
         currentStage.setMinHeight(height);
         currentStage.setMinWidth(width);
@@ -284,5 +348,20 @@ public class MainWindowChatClientController implements Initializable, TCPConnect
         currentStage.initModality(Modality.APPLICATION_MODAL);
         currentStage.initOwner(mainStage);
         return currentStage;
+    }
+
+    public void registerUser() {
+        if (!"None".equals(settingsXML.getUserName()) && !"None".equals(settingsXML.getPassword())) {
+            this.connection.sendMsg("/Register " + settingsXML.getUserName() + " " + settingsXML.getPassword());
+        } else {
+            printMsg("Сначала укажите данные для авторизации");
+        }
+    }
+
+    public void authUser() {
+        printMsg("Попытка авторизации");
+        if (!"None".equals(settingsXML.getUserName()) && !"None".equals(settingsXML.getPassword())) {
+            this.connection.sendMsg("/AuthUser " + settingsXML.getUserName() + " " + settingsXML.getPassword());
+        }
     }
 }

@@ -16,7 +16,7 @@ public class AboutController {
     public void initialize() {
     }
 
-    public void aboutStage(Stage mainStage) {
+    public void setAboutStage(Stage mainStage) {
         this.aboutStage = mainStage;
     }
 

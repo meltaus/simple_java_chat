@@ -28,15 +28,6 @@ public class ChatServer implements TCPConnectionListener {
         try {
             // Создаем экземпляр по работе с БД
             dbHandler = DbHandler.getInstance();
-            // Добавляем запись
-            //dbHandler.addProduct(new Product("Музей", 200, "Развлечения"));
-            // Получаем все записи и выводим их на консоль
-//            List<User> users = dbHandler.getAllUsers();
-//            for (User user : users) {
-//                System.out.println(user.toString());
-//            }
-            // Удаление записи с id = 8
-            //dbHandler.deleteProduct(8);
         } catch (SQLException e) {
             System.out.println("Подключение к БД завершилось ошибкой");
         }

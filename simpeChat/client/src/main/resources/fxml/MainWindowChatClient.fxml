@@ -25,17 +25,19 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Файл">
                   <items>
+                        <MenuItem mnemonicParsing="false" onAction="#authUser" text="Авторизироваться" />
+                        <MenuItem mnemonicParsing="false" onAction="#registerUser" text="Зарегистрироваться" />
                     <MenuItem mnemonicParsing="false" onAction="#onExit" text="Выход" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Редактировать">
                   <items>
-                    <MenuItem fx:id="setNickName" mnemonicParsing="false" onAction="#actionButtonPerssed" text="Установить ник" />
+                    <MenuItem fx:id="setNickName" mnemonicParsing="false" onAction="#actionButtonPerssed" text="Настройки" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="О программе" />
+                    <MenuItem fx:id="about" mnemonicParsing="false" onAction="#actionButtonPerssed" text="О программе" />
                   </items>
                 </Menu>
               </menus>

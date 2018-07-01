@@ -5,10 +5,55 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="345.0" prefWidth="427.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.javacore.gorbachev.chatclient.controller.AboutController">
+<AnchorPane maxHeight="310.0" maxWidth="936.0" minHeight="310.0" minWidth="936.0" prefHeight="310.0" prefWidth="936.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.javacore.gorbachev.chatclient.controller.AboutController">
    <children>
       <Button layoutX="549.0" layoutY="360.0" mnemonicParsing="false" onAction="#onExit" text="OK" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-      <Label layoutX="14.0" layoutY="14.0" text="Ключи">
+      <Label layoutX="14.0" layoutY="14.0" text="Ключи" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </Label>
+      <Label layoutX="15.0" layoutY="40.0" text="/w nickName - Личное сообщение для пользователя. У отправляющего так же отображается, что он написал" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="40.0">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </Label>
+      <Label layoutX="15.0" layoutY="66.0" text="/MyNickName nickName - Представляется серверу, сервер запоминает ник и соединение (проверки на уникальность никнейма нет)" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="66.0">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </Label>
+      <Label layoutX="14.0" layoutY="92.0" text="/ReplaceMyNickName oldNickName - newNickName -- Смена никнейма. Сначала старый, потом новый." AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="92.0">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </Label>
+      <Label layoutX="14.0" layoutY="118.0" text="/AllNicks -- список всех пользователей в чате" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="118.0">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </Label>
+      <Label layoutX="15.0" layoutY="144.0" text="/Register login password -- Регистрация пользователя (если есть совпадение, то регистрации не будет, но и предупреждения тоже)" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="144.0">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </Label>
+      <Label layoutX="15.0" layoutY="173.0" text="/AllNicks login password -- проводит авторизацию пользователя. В случае отрицательного ответа - дисконект" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="173.0">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </Label>
+      <Label layoutX="13.0" layoutY="199.0" text="Данные ключи из чата не предназначенны для работы из чата (кроме личного сообщения)" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="199.0">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </Label>
+      <Label layoutX="15.0" layoutY="225.0" text="Со стороны клиента данные хрянятся в xml файле" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="225.0">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </Label>
+      <Label layoutX="14.0" layoutY="251.0" text="Со стороны сервера данные хранятся в SqLite базе" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="251.0">
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
