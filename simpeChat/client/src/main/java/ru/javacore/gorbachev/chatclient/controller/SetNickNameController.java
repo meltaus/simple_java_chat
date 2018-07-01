@@ -17,17 +17,32 @@ public class SetNickNameController {
     @FXML
     private TextField textFieldUser;
     @FXML
+    private TextField textFieldLogin;
+    @FXML
+    private TextField textFieldPassword;
+    @FXML
     private AnchorPane setNickNameLayout;
+
+    private final SettingsXML settingsXML;
+    private final FileConfig fileConfig;
+
+    public SetNickNameController() {
+        this.fileConfig = new FileConfig();
+        this.settingsXML = this.fileConfig.loadXML();
+    }
 
     //Метод вызываемый при отрисовки формы
     @FXML
     public void initialize() {
         this.textFieldUser.requestFocus();
-        FileConfig fileConfig = new FileConfig();
-        SettingsXML settingsXML = new SettingsXML();
-        settingsXML = fileConfig.loadXML();
-        if (!settingsXML.getUser().equals("None")) {
+        if (!"None".equals(this.settingsXML.getUser())) {
             this.textFieldUser.setText(settingsXML.getUser());
+        }
+        if (!"None".equals(this.settingsXML.getUserName())) {
+            this.textFieldLogin.setText(settingsXML.getUserName());
+        }
+        if (!"None".equals(this.settingsXML.getPassword())) {
+            this.textFieldPassword.setText(settingsXML.getPassword());
         }
     }
 
@@ -37,10 +52,8 @@ public class SetNickNameController {
 
     //Обработка кнопки Принять
     public void clickOK(ActionEvent actionEvent) {
-        FileConfig fileConfig = new FileConfig();
-        SettingsXML settingsXML = new SettingsXML();
-        settingsXML = fileConfig.loadXML();
-        fileConfig.createXML("None", textFieldUser.getText());
+        this.fileConfig.createXML("None", textFieldUser.getText(),
+                this.textFieldLogin.getText(), this.textFieldPassword.getText());
         onExit(actionEvent);
     }
 

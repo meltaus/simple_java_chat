@@ -6,11 +6,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane fx:id="setNickNameLayout" maxHeight="115.0" maxWidth="215.0" minHeight="115.0" minWidth="215.0" prefHeight="115.0" prefWidth="215.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.javacore.gorbachev.chatclient.controller.SetNickNameController">
+<AnchorPane fx:id="setNickNameLayout" maxHeight="172.0" maxWidth="286.0" minHeight="172.0" minWidth="286.0" prefHeight="172.0" prefWidth="286.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.javacore.gorbachev.chatclient.controller.SetNickNameController">
    <children>
-      <Label layoutX="14.0" layoutY="14.0" text="Укажите имя пользователя" />
-      <TextField fx:id="textFieldUser" layoutX="14.0" layoutY="30.0" prefHeight="26.0" prefWidth="189.0" />
+      <Label layoutX="14.0" layoutY="14.0" text="Укажите имя пользователя" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <TextField fx:id="textFieldUser" layoutX="86.0" layoutY="30.0" prefHeight="26.0" prefWidth="189.0" AnchorPane.leftAnchor="86.0" AnchorPane.topAnchor="30.0" />
       <Button layoutX="393.0" layoutY="215.0" mnemonicParsing="false" onAction="#clickOK" text="Принять" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
          <opaqueInsets>
             <Insets />
@@ -24,5 +23,10 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </Button>
+      <Label layoutX="14.0" layoutY="35.0" text="Ник" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="35.0" />
+      <TextField fx:id="textFieldLogin" layoutX="86.0" layoutY="64.0" prefHeight="26.0" prefWidth="189.0" AnchorPane.leftAnchor="86.0" AnchorPane.topAnchor="64.0" />
+      <TextField fx:id="textFieldPassword" layoutX="86.0" layoutY="96.0" prefHeight="26.0" prefWidth="189.0" AnchorPane.leftAnchor="86.0" AnchorPane.topAnchor="96.0" />
+      <Label layoutX="14.0" layoutY="69.0" text="Логин" />
+      <Label layoutX="14.0" layoutY="101.0" text="Пароль" />
    </children>
 </AnchorPane>
