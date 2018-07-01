@@ -1,7 +1,7 @@
-package ru.javacore.gorbachev.chatclient.server.essence;
+package ru.javacore.gorbachev.chatclient.server;
 
 import ru.javacore.gorbachev.chatclient.network.connection.TCPConnection;
-import ru.javacore.gorbachev.essence.UserChat;
+import ru.javacore.gorbachev.chatclient.essence.UserChat;
 import ru.javacore.gorbachev.chatclient.network.listener.TCPConnectionListener;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package ru.javacore.gorbachev.essence;
+package ru.javacore.gorbachev.chatclient.essence;
 
 public class UserChat {
 

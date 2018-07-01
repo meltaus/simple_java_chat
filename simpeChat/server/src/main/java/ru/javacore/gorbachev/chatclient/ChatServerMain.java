@@ -1,6 +1,6 @@
-package ru.javacore.gorbachev.server;
+package ru.javacore.gorbachev.chatclient;
 
-import ru.javacore.gorbachev.chatclient.server.essence.ChatServer;
+import ru.javacore.gorbachev.chatclient.server.ChatServer;
 
 public class ChatServerMain {
     private static ChatServer chatServer;
