@@ -26,7 +26,7 @@ public class FileConfig {
     public static final String FILECONFIG = "config.xml";
 
     //Создаем файл настроек
-    public void createXML(String serverChat, String user) {
+    public void createXML(String serverChat, String user, String userName, String password) {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         try {
@@ -42,7 +42,7 @@ public class FileConfig {
             doc.appendChild(rootElement);
 
             // добавляем первый дочерний элемент к корневому
-            rootElement.appendChild(getElement(doc, serverChat, user));
+            rootElement.appendChild(getElement(doc, serverChat, user, userName, password));
 
             //создаем объект TransformerFactory для печати в консоль
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -66,17 +66,23 @@ public class FileConfig {
     }
 
     // метод для создания нового узла XML-файла
-    private static Node getElement(Document doc, String serverChat, String user) {
+    private static Node getElement(Document doc, String serverChat, String user, String userName, String password) {
         Element element = doc.createElement("SettingsXML");
 
         // устанавливаем атрибут id
         //language.setAttribute("id", id);
 
-        // создаем элемент name
+        // создаем элемент serverChat
         element.appendChild(getXMLElements(doc, element, "serverChat", serverChat));
 
-        // создаем элемент age
+        // создаем элемент user
         element.appendChild(getXMLElements(doc, element, "user", user));
+
+        //Создаем элемент userName
+        element.appendChild(getXMLElements(doc, element, "userName", userName));
+
+        //Создаем элемент password
+        element.appendChild(getXMLElements(doc, element, "password", password));
         return element;
     }
 
@@ -130,6 +136,8 @@ public class FileConfig {
             Element element = (Element) node;
             settingsXML.setServerChat(getTagValue("serverChat", element));
             settingsXML.setUser(getTagValue("user", element));
+            settingsXML.setUserName(getTagValue("userName", element));
+            settingsXML.setPassword(getTagValue("password", element));
         }
 
         return settingsXML;
@@ -142,7 +150,7 @@ public class FileConfig {
         return node.getNodeValue();
     }
 
-    public void addXML(String serverChat, String user) {
+    public void addXML(String serverChat, String user, String userName, String password) {
         File xmlFile = new File(FILECONFIG);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
@@ -155,7 +163,7 @@ public class FileConfig {
             updateElementValue(doc);
 
             // добавляем новый элемент
-            addElement(doc, serverChat, user);
+            addElement(doc, serverChat, user, userName, password);
 
             // запишем отредактированный элемент в файл
             // или выведем в консоль
@@ -174,10 +182,10 @@ public class FileConfig {
     }
 
     // добавили элемент paradigm
-    private static void addElement(Document doc, String serverChat, String user) {
+    private static void addElement(Document doc, String serverChat, String user, String userName, String password) {
         Element rootElement = doc.getDocumentElement();
 
-        rootElement.appendChild(getElement(doc, serverChat, user));
+        rootElement.appendChild(getElement(doc, serverChat, user, userName, password));
     }
 
     // изменяем значение существующего элемента name
