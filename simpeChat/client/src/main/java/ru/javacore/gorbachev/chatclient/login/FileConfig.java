@@ -23,7 +23,7 @@ public class FileConfig {
     private String serverChat;
 
     //имя файла настроек
-    public static String fileconfig = "config.xml";
+    public static final String FILECONFIG = "config.xml";
 
     //Создаем файл настроек
     public void createXML(String serverChat, String user) {
@@ -53,7 +53,7 @@ public class FileConfig {
 
             //печатаем в консоль или файл
             StreamResult console = new StreamResult(System.out);
-            StreamResult file = new StreamResult(new File(fileconfig));
+            StreamResult file = new StreamResult(new File(FILECONFIG));
 
             //записываем данные
             transformer.transform(source, console);
@@ -90,7 +90,7 @@ public class FileConfig {
 
     //Прочитать данные с файла настроек
     public SettingsXML loadXML() {
-        File xmlFile = new File(fileconfig);
+        File xmlFile = new File(FILECONFIG);
         SettingsXML result = new SettingsXML();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
@@ -143,7 +143,7 @@ public class FileConfig {
     }
 
     public void addXML(String serverChat, String user) {
-        File xmlFile = new File(fileconfig);
+        File xmlFile = new File(FILECONFIG);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         try {
@@ -163,7 +163,7 @@ public class FileConfig {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(fileconfig));
+            StreamResult result = new StreamResult(new File(FILECONFIG));
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.transform(source, result);
             System.out.println("XML успешно изменен!");

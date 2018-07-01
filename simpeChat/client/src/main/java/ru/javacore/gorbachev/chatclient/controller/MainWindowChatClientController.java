@@ -33,7 +33,7 @@ public class MainWindowChatClientController implements Initializable, TCPConnect
     private static final String DEFAULT_USER_NAME = "default";
 
     //Текущие настройки приложения. Может перечитываться в процессе работы программы и обновляет параметры
-    private static SettingsXML settingsXML;
+    private SettingsXML settingsXML;
 
     //Элементы с макета
     @FXML
@@ -234,7 +234,7 @@ public class MainWindowChatClientController implements Initializable, TCPConnect
     //Если настроек ранее не было - создается фйайл настроек со значениями полей None
     private void loadConfigure() {
         FileConfig fileConfig = new FileConfig();
-        File file = new File(fileConfig.fileconfig);
+        File file = new File(fileConfig.FILECONFIG);
         if (file.exists()) {
             System.out.println("Файла настроек загружен");
             settingsXML = fileConfig.loadXML();

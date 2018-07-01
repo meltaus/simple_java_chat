@@ -9,7 +9,7 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 
 public class ChatServer implements TCPConnectionListener {
-    private int port = 8189;
+    private static final int PORT = 8189;
     private TCPConnection tcpConnection;
     //Список соединений
     private final ArrayList<TCPConnection> connections;
@@ -19,7 +19,7 @@ public class ChatServer implements TCPConnectionListener {
     public ChatServer() {
         this.connections = new ArrayList<>();
         System.out.println("Сервер запущен");
-        try (ServerSocket serverSocket = new ServerSocket(port)) {
+        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             while (true) {
                 try {
                     this.tcpConnection = new TCPConnection(serverSocket.accept(), this);
