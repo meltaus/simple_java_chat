@@ -81,7 +81,7 @@ public class DbHandler {
     public void addUser(User user) {
         // Создадим подготовленное выражение, чтобы избежать SQL-инъекций
         try (PreparedStatement statement = this.connection.prepareStatement(
-                "INSERT INTO user_chat(`nickName`, `password`) " +
+                "INSERT INTO user_chat (`nickName`, `password`) " +
                         "VALUES(?, ?)")) {
             statement.setObject(1, user.getNickName());
             statement.setObject(2, user.getPassword());
