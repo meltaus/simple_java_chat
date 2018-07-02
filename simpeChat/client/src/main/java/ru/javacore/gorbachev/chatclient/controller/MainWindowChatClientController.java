@@ -327,11 +327,11 @@ public class MainWindowChatClientController implements Initializable, TCPConnect
         if (settingsXML.getUserName().equals("None")) {
             printMsg("Нет параметров для авторизации");
             Platform.runLater(() -> {
-                labelStatus.setText(labelStatus.getText() + "\t На данный момент у вас нет данных для авторизации");
+                labelStatus.setText("Ваш ник: " + this.userName + "\t На данный момент у вас нет данных для авторизации");
             });
         } else {
             Platform.runLater(() -> {
-                labelStatus.setText(labelStatus.getText() + "\t На сервере вы известный как " + settingsXML.getUserName());
+                labelStatus.setText("Ваш ник: " + this.userName + "\t На сервере вы известный как " + settingsXML.getUserName());
             });
         }
     }
